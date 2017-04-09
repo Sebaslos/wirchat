@@ -1,0 +1,472 @@
+body, p, h3{
+  margin: 0;
+}
+
+body {
+  font-family: 'Lucida Sans', Arial, sans-serif;
+  background:
+    url('../images/background.jpg')
+    no-repeat 50%;
+    background-size: cover;
+}
+
+div {
+  display: block;
+}
+
+pre {
+    margin: 0;
+    font-family: inherit;
+    font-size: 16px;
+    white-space: pre-wrap;
+    word-break: normal;
+}
+.main {
+    max-width: 1000px;
+    min-width: 800px;
+    height: 100%;
+    margin: 0 auto;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    overflow: hidden;
+}
+
+.panel {
+    position: relative;
+    width: 280px;
+    height: 100%;
+    float: left;
+    background: #2e3238;
+}
+
+.header {
+  padding: 18px;
+  position: relative;
+}
+
+.header .avatar {
+    display: table-cell;
+    vertical-align: middle;
+    padding-right: 10.625px;
+}
+
+
+.header .avatar .img {
+    width: 40px;
+    height: 40px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    display: block;
+    cursor: pointer;
+}
+
+.header .info {
+    display: table-cell;
+    vertical-align: middle;
+    width: 2000px;
+}
+
+
+.header .info input[type = text] {
+  display: inline-block;
+  font-weight: 400;
+  width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  color: white;
+  border: 0;
+  -webkit-border-radius: 2px;
+  font-size: 18px;
+  vertical-align: top;
+  line-height: 31px;
+  background-color: #2e3238;
+}
+
+
+
+.search_bar {
+  position: relative;
+  width: 244px;
+  margin: 0 auto 6px;
+}
+
+.search_bar .web_wechat_search {
+    position: absolute;
+    z-index: 101;
+    top: 1px;
+}
+
+
+.web_wechat_search {
+    background: url('../images/icon.png') 0 -1946px;
+}
+
+
+.web_wechat_search {
+    display: inline-block;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+}
+
+.search_bar .frm_search {
+    width: 214px;
+    height: 32px;
+    line-height: 32px;
+    border: 0;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    background-color: #26292e;
+    color: #fff;
+    padding-left: 30px;
+    font-size: 12px;
+}
+
+
+.tab {
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 4px;
+}
+
+.tab .tab_item {
+    float: left;
+    width: 50%;
+    position: relative;
+}
+
+.web_wechat_tab_chat, .web_wechat_tab_chat_hl,
+.web_wechat_tab_friends ,.web_wechat_tab_friends_hl {
+    display: inline-block;
+    vertical-align: middle;
+    width: 35px;
+    height: 35px;
+}
+
+.web_wechat_tab_chat {
+    background: url('../images/icon.png') 0 -2048px
+}
+
+.web_wechat_tab_chat_hl {
+    background: url('../images/icon.png') 0 -2083px
+}
+
+.web_wechat_tab_friends {
+    background: url('../images/icon.png') 0 -2140px
+}
+
+.web_wechat_tab_friends_hl {
+    background: url('../images/icon.png') 0 -2175px
+}
+
+.tab .tab_item a {
+    display: block;
+    text-align: center;
+}
+
+.tab .tab_item:after {
+    content: '';
+    position: absolute;
+    top: 7px;
+    right: 0;
+    width: 0;
+    height: 20px;
+    border-right: 1px solid #24272c
+}
+
+
+.user_list {
+  border-top: 1px solid #292c33;
+  position: absolute;
+  top: 154px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: scroll;
+
+}
+
+.chat_item {
+    overflow: hidden;
+    padding: 12px 18px 11px;
+    border-bottom: 1px solid #292c33;
+    cursor: pointer;
+    position: relative;
+}
+.chat_item .avatar {
+    float: left;
+    margin-right: 10px;
+    position: relative;
+}
+.chat_item .avatar .img {
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+}
+
+.chat_item .info {
+    overflow: hidden;
+}
+
+.chat_item .info .nickname .nickname_text {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.chat_item .info .nickname {
+    font-weight: 400;
+    font-size: 13px;
+    color: #fff;
+    line-height: 20px;
+}
+
+.chat_item .ext {
+    float: right;
+    color: #6b6f7c;
+    font-size: 13px;
+    text-align: right;
+}
+
+.chat_item .ext .attr {
+    height: 19px;
+    line-height: 1.5;
+}
+
+.web_wechat_no-remind, .web_wechat_no-remind_hl {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  display: inline-block
+}
+
+.web_wechat_no-remind {
+    background: url('../images/icon.png') 0 -1292px
+}
+
+.web_wechat_no-remind_hl {
+    background: url('../images/icon.png') 0 -1312px
+}
+
+.box{
+    position: relative;
+    background-color: #eee;
+    height: 100%;
+    left: 280px;
+    width: 720px;
+    /*text-align: center;*/
+}
+
+.box_hd {
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    line-height: 30px;
+}
+
+.box_hd .title_wrap {
+    position: relative;
+    padding: 10px 0;
+    margin: 0 19px;
+    border-bottom: 1px solid #d6d6d6;
+    background-color: #eee;
+    z-index: 1024;
+}
+
+.box_hd .title_wrap .title_name {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    text-decoration: none;
+    color: #000;
+    font-weight: 400;
+}
+
+.box_bd {
+    position: absolute;
+    top: 51px;
+    right: 0;
+    left: 0;
+    bottom: 180px;
+    padding: 0 19px;
+    overflow-y: scroll;
+}
+
+.message.me {
+    float: right;
+    text-align: right;
+    clear: right;
+}
+
+.message {
+    margin-bottom: 16px;
+    float: left;
+    width: 100%;
+}
+
+
+.message .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    float: left;
+    cursor: pointer;
+}
+
+.message.me .avatar {
+    float: right;
+}
+
+.message.me .content {
+    overflow: hidden;
+}
+
+.message .content {
+    overflow: hidden;
+}
+
+
+.bubble.bubble_primary {
+    background-color: #b2e281;
+}
+
+.bubble.bubble_default {
+    background-color: #fff;
+}
+
+.bubble {
+    max-width: 500px;
+    min-height: 1em;
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    text-align: left;
+    font-size: 22px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    margin: 0 10px;
+}
+
+.bubble_cont {
+    word-wrap: break-word;
+    word-break: break-all;
+    min-height: 25px;
+}
+
+.bubble_cont .plain {
+    padding: 11px 13px;
+}
+
+.bubble.bubble_primary.right:after {
+    border-left-color: #b2e281;
+    border-left-width: 4px;
+}
+.bubble.right:after {
+    border-left-color: #fff;
+}
+
+.bubble.right:after, .bubble.right:before {
+    left: 100%;
+}
+
+.bubble:after, .bubble:before {
+    position: absolute;
+    top: 14px;
+    border: 6px solid transparent;
+    content: " ";
+}
+.bubble.left:after {
+    border-right-color: #fff;
+    border-right-width: 4px;
+}
+.bubble.left:after, .bubble.left:before {
+    right: 100%;
+}
+
+/*
+.bubble_cont .plain .ico_loading {
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    margin-top: -7px;
+    margin-right: 13px;
+}
+
+.bubble_cont img {
+    vertical-align: middle;
+}
+
+.bubble_cont .plain .ico_fail {
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    margin-top: -11px;
+    margin-right: 9px;
+    cursor: pointer;
+}*/
+
+.box_ft {
+    position: absolute;
+    /*top: 540;*/
+    right: 0;
+    left: 0;
+    bottom: 0;
+    height: 180px;
+    margin-right: 19px;
+    border-top: 1px solid #d6d6d6;
+}
+
+.box_ft .action {
+    text-align: right;
+    margin-top: 5px;
+}
+
+.box_ft .flex {
+    height: 8em;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-left: 20px;
+    padding-top: 15px;
+    outline: none;
+    border: 0;
+    font-size: 16px;
+}
+
+.box_ft textarea {
+  font-family: inherit;
+  white-space: pre-wrap;
+  word-break: normal;
+  margin: 0;
+  width: 100%;
+  background-color: #eee;
+
+}
+
+
+.btn_send {
+    background-color: #fff;
+    color: #222;
+    display: inline-block;
+    border: 1px solid #c1c1c1;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    padding: 3px 20px;
+    font-size: 16px;
+}

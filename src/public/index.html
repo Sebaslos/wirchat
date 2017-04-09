@@ -1,0 +1,203 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Wir Chat</title>
+
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+    <script>
+        var app = angular.module('wirchat', []);
+        app.controller('roomCtrl', function ($scope, $http) {
+            $http.get("/room").then(function (response) {
+                $scope.rooms = response.data;
+            });
+        });
+
+        var conn = new WebSocket('ws://localhost:8090');
+        conn.onopen = function (e) {
+            alert("Connection established!");
+        };
+
+        var scrolltoend = function () {
+            var div = $(".box_bd");
+            div.scrollTop(div[0].scrollHeight);
+        };
+
+        conn.onmessage = function (e) {
+            var text = e.data;
+            $(".message_box").append("<div class='message'><img class='avatar' src='images/logo.png' /><div class='bubble bubble_default left'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
+            scrolltoend();
+        };
+
+        function sendMessage() {
+            var text = document.getElementById("chat_text").value;
+            document.getElementById("chat_text").value = "";
+            conn.send(text);
+            $(".message_box").append("<div class='message me'><img class='avatar' src='images/logo.png' /><div class='bubble bubble_primary right'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
+            scrolltoend();
+        }
+
+        $(document).ready(function () {
+            $("textarea").keypress(function (e) {
+                if (e.keyCode == 13) {
+                    $("button").click();
+                }
+            });
+        });
+
+    </script>
+
+</head>
+
+<body>
+    <div class="main">
+        <div class="panel">
+            <div class="header">
+                <div class="avatar">
+                    <img class="img" src="images/logo.png" />
+                </div>
+                <div class="info">
+                    <h3 class="nickname">
+                        <input type="text" name="name" value="WEB Techno" />
+                </div>
+            </div>
+
+            <div class="search_bar">
+                <i class="web_wechat_search"></i>
+                <input class="frm_search" type="text" placeholder="search">
+            </div>
+
+            <div class="tab">
+                <div class="tab_item">
+                    <a class="chat" href='#'>
+                        <i class="web_wechat_tab_chat web_wechat_tab_chat_hl "></i>
+                    </a>
+                </div>
+                <div class="tab_item">
+                    <a href='#'>
+                        <i class="web_wechat_tab_friends_hl"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- user-list -->
+            <div class="user_list" ng-app="wirchat" ng-controller="roomCtrl">
+
+                <div class="chat_item" ng-repeat="room in rooms" onclick="location.href='/room'">
+                    <div class="avatar">
+                        <img class="img" src="images/logo.png" />
+                    </div>
+                    <div class="info">
+                        <h3 class="nickname">
+                            <span class="nickname_text">{{ room.name }}</span>
+                        </h3>
+                    </div>
+                </div>
+
+                <!--<div class="chat_item">
+                    <div class="ext">
+                        <p class="attr">11:24</p>
+                        <p class="attr">
+                            <i class="web_wechat_no-remind"></i>
+                        </p>
+                    </div>
+                    <div class="avatar">
+                        <img class="img" src="images/logo.png" />
+                    </div>
+                    <div class="info">
+                        <h3 class="nickname">
+                            <span class="nickname_text">Room1</span>
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="chat_item">
+                    <div class="avatar">
+                        <img class="img" src="images/logo.png" />
+                    </div>
+                    <div class="info">
+                        <h3 class="nickname">
+                            <span class="nickname_text">Room2</span>
+                        </h3>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+
+        <!--<div class="box">
+            <div class="box_hd">
+                <div class="title_wrap">
+                    <span class="title_name">lol</span>
+                </div>
+            </div>
+        </div>-->
+        <!-- 或者替换chatbox的内容 -->
+
+        <div class="box">
+            <div class="box_hd">
+                <div class="title_wrap">
+                    <span class="title_name">Room1</span>
+                </div>
+            </div>
+
+            <div class="box_bd">
+                <div class="message_box">
+
+                    <div class="message me">
+                        <img class="avatar" src="images/logo.png" />
+                        <div class="bubble bubble_primary right">
+                            <div class="bubble_cont">
+                                <div class="plain">
+                                    <pre>Hllod</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message me">
+                        <img class="avatar" src="images/logo.png" />
+                        <div class="bubble bubble_primary right">
+                            <div class="bubble_cont">
+                                <div class="plain">
+                                    <pre></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message">
+                        <img class="avatar" src="images/logo.png" />
+                        <div class="bubble bubble_default left">
+                            <div class="bubble_cont">
+                                <div class="plain">
+                                    <pre>Hllod</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box_ft">
+                <!--<form action="index.php" method="get">-->
+                <!--<form>-->
+                <div>
+                    <textarea id="chat_text" name="chat_text" class="flex"></textarea>
+                </div>
+                <div class="action">
+                    <!--<input class="btn_send" type="submit" value="Send" onclick="sendMessage()"/>-->
+                    <button class="btn_send" onclick="sendMessage()">Send</button>
+                </div>
+                <!--</form>-->
+            </div>
+
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>
