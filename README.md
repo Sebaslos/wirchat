@@ -7,9 +7,9 @@ anonym chat room
 - open termin and cd into project root
 
 - run WebSocket Server
-  ``` bash
-  $ php bin/chat-server.php
-  ```
+``` bash
+$ php bin/chat-server.php
+```
 - open webbrowser and go to http://localhost/wirchat/src/public, when not set virtual host
 
 
