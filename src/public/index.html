@@ -4,6 +4,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Wir Chat</title>
 
+
+    <link rel="icon" href="images/page_icon.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="images/page_icon.png" type="image/x-icon" />
+
     <link rel="stylesheet" type="text/css" href="styles/main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
@@ -48,6 +52,27 @@
             });
         });
 
+
+        var path = './images/avatar/';
+        var fso = new ActiveXObject("Scripting.FileSystemObject");
+        var fldr = fso.GetFolder(path);
+        var ff = new Enumerator(fldr.Files);
+        var s = '';
+        var fileArray = new Array();
+        var fileName = '';
+        var count = 0;
+        // for(; !ff.atEnd(); ff.moveNext()){
+        //     fileName = ff.item().Name + '';
+        //     fileName = fileName.toLowerCase();
+        //     if(fileName.indexOf('cookie') >= 0){
+        //         fileName = fileName.substring(0,fileName.indexOf('.'));
+        //         fileName = fileName.substring(fileName.lastIndexOf('@')+1);
+        //         s += fileName + '\n';
+        //     }
+        //     count++;
+        // }
+        alert(count + ',' + s);
+
     </script>
 
 </head>
@@ -78,13 +103,12 @@
                 </div>
                 <div class="tab_item">
                     <a href='#'>
-                        <i class="web_wechat_tab_friends_hl"></i>
+                        <i class="web_wechat_tab_friends web_wechat_tab_friends_hl"></i>
                     </a>
                 </div>
             </div>
             <!-- user-list -->
             <div class="user_list" ng-app="wirchat" ng-controller="roomCtrl">
-
                 <div class="chat_item" ng-repeat="room in rooms" onclick="location.href='/room'">
                     <div class="avatar">
                         <img class="img" src="images/logo.png" />
@@ -126,15 +150,6 @@
             </div>
         </div>
 
-        <!--<div class="box">
-            <div class="box_hd">
-                <div class="title_wrap">
-                    <span class="title_name">lol</span>
-                </div>
-            </div>
-        </div>-->
-        <!-- 或者替换chatbox的内容 -->
-
         <div class="box">
             <div class="box_hd">
                 <div class="title_wrap">
@@ -169,10 +184,11 @@
 
                     <div class="message">
                         <img class="avatar" src="images/logo.png" />
+                        <h4 class="nickname">Test</h4>
                         <div class="bubble bubble_default left">
                             <div class="bubble_cont">
                                 <div class="plain">
-                                    <pre>Hllod</pre>
+                                    <pre>Hllo</pre>
                                 </div>
                             </div>
                         </div>
@@ -194,7 +210,7 @@
             </div>
 
         </div>
-
+        <!-- </div> -->
 
     </div>
 
