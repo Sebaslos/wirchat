@@ -44,3 +44,4 @@ function getAllRoom(Request $request, Response $response) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
     }
 }
+

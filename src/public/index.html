@@ -11,7 +11,7 @@
     <script>
         var app = angular.module('wirchat', []);
         app.controller('roomCtrl', function ($scope, $http) {
-            $http.get("/room").then(function (response) {
+            $http.get("room").then(function (response) {
                 $scope.rooms = response.data;
             });
         });
@@ -72,7 +72,7 @@
 
             <div class="tab">
                 <div class="tab_item">
-                    <a class="chat" href='#'>
+                    <a href='#'>
                         <i class="web_wechat_tab_chat web_wechat_tab_chat_hl "></i>
                     </a>
                 </div>
