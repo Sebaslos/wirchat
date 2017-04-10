@@ -20,8 +20,6 @@ $app->get('/room', 'getAllRoom');
 
 $app->run();
 
-
-
 function getConnection() {
     $dbhost = "localhost";
     $dbuser = "root";

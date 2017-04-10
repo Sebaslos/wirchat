@@ -13,6 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
     <script>
+<<<<<<< HEAD
 
         var my_avatar_src;
         my_avatar_src = "images/avatar/avatar"+getRandomNum(1,9)+".png";
@@ -26,12 +27,17 @@
               });
           }
         );
+=======
+        var room = null;
+        var currentRoom = null;
+>>>>>>> master
 
         var app = angular.module('wirchat', []);
         app.controller('roomCtrl', function ($scope, $http) {
             $http.get("room").then(function (response) {
                 $scope.rooms = response.data;
             });
+            // $scope.r = room;
         });
 
         var conn = new WebSocket('ws://localhost:8090');
@@ -45,20 +51,90 @@
         };
 
         conn.onmessage = function (e) {
+<<<<<<< HEAD
             var text = e.data;
             $(".message_box").append("<div class='message'><img class='avatar' src='"+my_avatar_src+"' /><div class='bubble bubble_default left'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
+=======
+            var msg = $.parseJSON(e.data);
+            var text = "";
+
+            console.log(msg);
+
+            switch (msg.type) {
+                case "rejectusername":
+                    alert(msg.text);
+                    break;
+                case "enterroom":
+                    setRoom(room);
+                    break;
+                case "userlist":
+                    text = msg.text;
+                    $("#box_title").text(room.name + " (" + msg.users.length + ")");
+                    $(".message_box").append("<div class='message'><img class='avatar' src='images/logo.png' /><div class='bubble bubble_default left'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
+                    // TODO: set userlist in left side
+                    break;
+                case "message":
+                    text = msg.text;
+                    $(".message_box").append("<div class='message'><img class='avatar' src='images/logo.png' /><div class='bubble bubble_default left'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
+                    break;
+            }
+
+>>>>>>> master
             scrolltoend();
+        };
+
+        function changeRoom() {
+            room = "rom";
         };
 
         function sendMessage() {
             var text = document.getElementById("chat_text").value;
+<<<<<<< HEAD
             if(text.length != 0){
               document.getElementById("chat_text").value = "";
               conn.send(text);
               $(".message_box").append("<div class='message me'><img class='avatar' src='"+ my_avatar_src +"'/><div class='bubble bubble_primary right'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
               scrolltoend();
             }
+=======
+            document.getElementById("chat_text").value = "";
+
+            var msg = {
+                type: "message",
+                text: text,
+                username: $("#username").val(),
+                roomId: currentRoom.id
+            };
+            // alert(JSON.stringify(msg));
+            conn.send(JSON.stringify(msg));
+            $(".message_box").append("<div class='message me'><img class='avatar' src='images/logo.png' /><div class='bubble bubble_primary right'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
+            scrolltoend();
+>>>>>>> master
         }
+
+        function enterRoom(r) {
+            room = $.parseJSON(r);
+            if (currentRoom !== null && room.id == currentRoom.id) {
+                alert("you have already in this room");
+                return;
+            }
+
+            var cid = currentRoom === null?null:currentRoom.id;
+            var msg = {
+                type: "changeRoom",
+                username: $("#username").val(),
+                toRoom: room.id,
+                currentRoom: cid
+            };
+            conn.send(JSON.stringify(msg));
+        };
+
+        function setRoom(room) {
+            // room = $.parseJSON(r);
+            currentRoom = room;
+            // $("#box_title").text(room.name);
+            $(".message_box").text("");
+        };
 
         $(document).ready(function () {
             $("textarea").keypress(function (e) {
@@ -68,6 +144,7 @@
             });
         });
 
+<<<<<<< HEAD
 
         function getRandomNum(Min,Max){
           var Range = Max - Min;
@@ -123,6 +200,15 @@
             }
           }
         }
+=======
+        function GetRandomNum(Min, Max) {
+            var Range = Max - Min;
+            var Rand = Math.random();
+            return (Min + Math.round(Rand * Range));
+        }
+        // var num = GetRandomNum(1,9);
+        // alert(num);
+>>>>>>> master
     </script>
 
 </head>
@@ -136,7 +222,8 @@
                 </div>
                 <div class="info">
                     <h3 class="nickname">
-                        <input type="text" name="name" value="WEB Techno" />
+                        <input id="username" type="text" name="name" value="WEB Techno" />
+                    </h3>
                 </div>
             </div>
 
@@ -168,18 +255,25 @@
             <div class="tab">
                 <div class="tab_item">
                     <a href='#'>
-                        <i class="web_wechat_tab_chat web_wechat_tab_chat_hl "></i>
+                        <i class="web_wechat_tab_chat"></i>
+                        <!--web_wechat_tab_chat_hl-->
                     </a>
                 </div>
                 <div class="tab_item">
                     <a href='#'>
-                        <i class="web_wechat_tab_friends web_wechat_tab_friends_hl"></i>
+                        <i class="web_wechat_tab_friends"></i>
+                        <!-- web_wechat_tab_friends_hl -->
                     </a>
                 </div>
             </div>
             <!-- user-list -->
             <div class="user_list" ng-app="wirchat" ng-controller="roomCtrl">
+<<<<<<< HEAD
                 <div class="chat_item active" ng-repeat="room in rooms" onclick="location.href='/room'">
+=======
+                <div class="chat_item" ng-repeat="room in rooms" id="{{room}}" onclick="enterRoom(id)">
+                    <!--onclick="location.href='/room'"-->
+>>>>>>> master
                     <div class="avatar">
                         <img class="img" src="images/logo.png" />
                     </div>
@@ -220,9 +314,9 @@
             </div>
         </div>
 
-        <div class="box">
+        <div class="box" >
             <div class="box_hd">
-                <div class="title_wrap">
+                <div class="title_wrap" id="box_title">
                     <span class="title_name">Room1</span>
                 </div>
             </div>
