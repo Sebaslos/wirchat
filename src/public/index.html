@@ -179,7 +179,7 @@
             </div>
             <!-- user-list -->
             <div class="user_list" ng-app="wirchat" ng-controller="roomCtrl">
-                <div class="chat_item" ng-repeat="room in rooms" onclick="location.href='/room'">
+                <div class="chat_item active" ng-repeat="room in rooms" onclick="location.href='/room'">
                     <div class="avatar">
                         <img class="img" src="images/logo.png" />
                     </div>
@@ -253,6 +253,9 @@
                     </div>
 
                     <div class="message">
+                        <div class="message_system">
+                          <div class="content">22:30</div>
+                        </div>
                         <img class="avatar" src="images/logo.png" />
                         <h4 class="nickname">Test</h4>
                         <div class="bubble bubble_default left">
@@ -262,6 +265,11 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="message_info">
+                      <p class="message_system ">
+                        <span class="content">Tobi join groop</span>
+                      </p>
                     </div>
                 </div>
             </div>

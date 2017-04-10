@@ -8,6 +8,8 @@ body {
     url('../images/background.jpg')
     no-repeat 50%;
     background-size: cover;
+
+  line-height: 1.6;
 }
 
 h4 {
@@ -584,4 +586,24 @@ pre {
 
 button:hover {
   background-color: #eee;
+}
+.message_info {
+  margin: 5px 5px;
+  float: left;
+  width: 100%;
+}
+.message_system {
+    text-align: center;
+    margin: 10px auto;
+    max-width: 50%;
+}
+
+.message_system .content {
+    display: inline-block;
+    font-size: 12px;
+    padding: 1px 18px;
+    color: #b2b2b2;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
 }
