@@ -6,6 +6,11 @@ CREATE TABLE `room` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=latin1;
 
+
+INSERT INTO `room` (`id`, `name`) VALUES (NULL, 'WebTechnologie');
+INSERT INTO `room` (`id`, `name`) VALUES (NULL, 'Mathe');
+INSERT INTO `room` (`id`, `name`) VALUES (NULL, 'ComputerGrafik');
+INSERT INTO `room` (`id`, `name`) VALUES (NULL, 'Datenbank');
 -- DROP TABLE IF EXISTS `user`;
 
 -- CREATE TABLE `user` (

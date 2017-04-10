@@ -4,6 +4,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Wir Chat</title>
 
+
+    <link rel="icon" href="images/page_icon.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="images/page_icon.png" type="image/x-icon" />
+
     <link rel="stylesheet" type="text/css" href="styles/main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
@@ -11,7 +15,7 @@
     <script>
         var app = angular.module('wirchat', []);
         app.controller('roomCtrl', function ($scope, $http) {
-            $http.get("/room").then(function (response) {
+            $http.get("room").then(function (response) {
                 $scope.rooms = response.data;
             });
         });
@@ -73,18 +77,17 @@
             <div class="tab">
                 <div class="tab_item">
                     <a class="chat" href='#'>
-                        <i class="web_wechat_tab_chat web_wechat_tab_chat_hl "></i>
+                        <i class="web_wechat_tab_chat "></i>
                     </a>
                 </div>
                 <div class="tab_item">
                     <a href='#'>
-                        <i class="web_wechat_tab_friends_hl"></i>
+                        <i class="web_wechat_tab_friends web_wechat_tab_friends_hl"></i>
                     </a>
                 </div>
             </div>
             <!-- user-list -->
             <div class="user_list" ng-app="wirchat" ng-controller="roomCtrl">
-
                 <div class="chat_item" ng-repeat="room in rooms" onclick="location.href='/room'">
                     <div class="avatar">
                         <img class="img" src="images/logo.png" />
@@ -134,7 +137,7 @@
             </div>
         </div>-->
         <!-- 或者替换chatbox的内容 -->
-
+        <!-- <div class="contetView"> -->
         <div class="box">
             <div class="box_hd">
                 <div class="title_wrap">
@@ -169,10 +172,11 @@
 
                     <div class="message">
                         <img class="avatar" src="images/logo.png" />
+                        <h4 class="nickname">Test</h4>
                         <div class="bubble bubble_default left">
                             <div class="bubble_cont">
                                 <div class="plain">
-                                    <pre>Hllod</pre>
+                                    <pre>Hllo</pre>
                                 </div>
                             </div>
                         </div>
@@ -194,7 +198,7 @@
             </div>
 
         </div>
-
+        <!-- </div> -->
 
     </div>
 

@@ -10,6 +10,16 @@ body {
     background-size: cover;
 }
 
+h4 {
+    display: block;
+    -webkit-margin-before: 1.33em;
+    -webkit-margin-after: 1.33em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+    margin: 0;
+}
+
 div {
   display: block;
 }
@@ -21,15 +31,19 @@ pre {
     white-space: pre-wrap;
     word-break: normal;
 }
+
+
 .main {
     max-width: 1000px;
     min-width: 800px;
+    min-height: 600px;
     height: 100%;
     margin: 0 auto;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     overflow: hidden;
+    overflow-x: scroll;
 }
 
 .panel {
@@ -103,6 +117,9 @@ pre {
 
 .web_wechat_search {
     background: url('../images/icon.png') 0 -1946px;
+    width: 30px;
+    height: 30px;
+    background-size: 150px 2489px;
 }
 
 
@@ -114,7 +131,7 @@ pre {
 }
 
 .search_bar .frm_search {
-    width: 214px;
+    width: 240px;
     height: 32px;
     line-height: 32px;
     border: 0;
@@ -127,7 +144,11 @@ pre {
     font-size: 12px;
 }
 
-
+.search_bar input {
+  margin: 0;
+  outline: inherit;
+  padding: 0;
+}
 .tab {
     overflow: hidden;
     position: relative;
@@ -144,24 +165,34 @@ pre {
 .web_wechat_tab_friends ,.web_wechat_tab_friends_hl {
     display: inline-block;
     vertical-align: middle;
-    width: 35px;
-    height: 35px;
 }
 
 .web_wechat_tab_chat {
-    background: url('../images/icon.png') 0 -2048px
+    background: url('../images/icon.png') 0 -2048px;
+    width: 35px;
+    height: 35px;
+    background-size: 150px 2489px;
 }
 
 .web_wechat_tab_chat_hl {
-    background: url('../images/icon.png') 0 -2083px
+    background: url('../images/icon.png') 0 -2083px;
+    width: 35px;
+        height: 35px;
+        background-size: 150px 2489px
 }
 
 .web_wechat_tab_friends {
-    background: url('../images/icon.png') 0 -2140px
+    background: url('../images/icon.png') 0 -2140px;
+    width: 35px;
+    height: 35px;
+    background-size: 150px 2489px;
 }
 
 .web_wechat_tab_friends_hl {
-    background: url('../images/icon.png') 0 -2175px
+    background: url('../images/icon.png') 0 -2175px;
+    width: 35px;
+    height: 35px;
+    background-size: 150px 2489px;
 }
 
 .tab .tab_item a {
@@ -254,6 +285,9 @@ pre {
 .web_wechat_no-remind_hl {
     background: url('../images/icon.png') 0 -1312px
 }
+.contetView{
+
+}
 
 .box{
     position: relative;
@@ -317,6 +351,19 @@ pre {
     width: 100%;
 }
 
+.message .nickname {
+    font-weight: 400;
+    padding-left: 10px;
+    font-size: 12px;
+    height: 22px;
+    line-height: 24px;
+    color: #4f4f4f;
+    width: 350px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+}
 
 .message .avatar {
     width: 40px;
