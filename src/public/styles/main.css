@@ -149,6 +149,64 @@ pre {
   outline: inherit;
   padding: 0;
 }
+
+.recommendation {
+    width: 238px;
+    top: 36px;
+    left: 0;
+    box-shadow: 0 0 10px #2a2a2a;
+    -moz-box-shadow: 0 0 10px #2a2a2a;
+    -webkit-box-shadow: 0 0 10px #2a2a2a;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    position: absolute;
+    z-index: 99;
+    outline: none;
+    max-height: 420px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.recommendation .contact_item.on {
+    background: #595b64;
+}
+
+.recommendation .contact_item {
+    overflow: hidden;
+    padding: 10px 9px;
+    cursor: pointer;
+    border-bottom: 1px solid #33363b;
+    background-color: #393c43;
+}
+
+.recommendation .avatar {
+    float: left;
+    margin-right: 10px;
+}
+
+.recommendation .avatar .img {
+    display: block;
+    width: 30px;
+    height: 30px;
+    border-radius: 2px;
+}
+.recommendation .info {
+    overflow: hidden;
+    line-height: 30px;
+}
+.recommendation .info .nickname {
+    font-weight: 400;
+    color: #fff;
+    font-size: 14px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    display: inline-block;
+}
+
 .tab {
     overflow: hidden;
     position: relative;
@@ -159,6 +217,10 @@ pre {
     float: left;
     width: 50%;
     position: relative;
+}
+
+.chat_item.active {
+    background: #3a3f45;
 }
 
 .web_wechat_tab_chat, .web_wechat_tab_chat_hl,
@@ -514,6 +576,12 @@ pre {
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
-    padding: 3px 20px;
+    padding: 4px 25px;
     font-size: 16px;
+    outline: inherit;
+    cursor: pointer;
+}
+
+button:hover {
+  background-color: #eee;
 }
