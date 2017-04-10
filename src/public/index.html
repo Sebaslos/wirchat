@@ -13,7 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
     <script>
-<<<<<<< HEAD
+
 
         var my_avatar_src;
         my_avatar_src = "images/avatar/avatar"+getRandomNum(1,9)+".png";
@@ -27,10 +27,10 @@
               });
           }
         );
-=======
+
         var room = null;
         var currentRoom = null;
->>>>>>> master
+
 
         var app = angular.module('wirchat', []);
         app.controller('roomCtrl', function ($scope, $http) {
@@ -51,10 +51,7 @@
         };
 
         conn.onmessage = function (e) {
-<<<<<<< HEAD
-            var text = e.data;
-            $(".message_box").append("<div class='message'><img class='avatar' src='"+my_avatar_src+"' /><div class='bubble bubble_default left'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
-=======
+
             var msg = $.parseJSON(e.data);
             var text = "";
 
@@ -79,7 +76,6 @@
                     break;
             }
 
->>>>>>> master
             scrolltoend();
         };
 
@@ -89,14 +85,6 @@
 
         function sendMessage() {
             var text = document.getElementById("chat_text").value;
-<<<<<<< HEAD
-            if(text.length != 0){
-              document.getElementById("chat_text").value = "";
-              conn.send(text);
-              $(".message_box").append("<div class='message me'><img class='avatar' src='"+ my_avatar_src +"'/><div class='bubble bubble_primary right'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
-              scrolltoend();
-            }
-=======
             document.getElementById("chat_text").value = "";
 
             var msg = {
@@ -109,7 +97,6 @@
             conn.send(JSON.stringify(msg));
             $(".message_box").append("<div class='message me'><img class='avatar' src='images/logo.png' /><div class='bubble bubble_primary right'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
             scrolltoend();
->>>>>>> master
         }
 
         function enterRoom(r) {
@@ -144,7 +131,7 @@
             });
         });
 
-<<<<<<< HEAD
+
 
         function getRandomNum(Min,Max){
           var Range = Max - Min;
@@ -190,7 +177,7 @@
           }
         }
 
-        //adapt to IE
+        //        adapt to IE
         function onPropChanged (event) {
           $(".contacts").empty();
           if(event.target.value.length!=0){
@@ -200,15 +187,7 @@
             }
           }
         }
-=======
-        function GetRandomNum(Min, Max) {
-            var Range = Max - Min;
-            var Rand = Math.random();
-            return (Min + Math.round(Rand * Range));
-        }
-        // var num = GetRandomNum(1,9);
-        // alert(num);
->>>>>>> master
+
     </script>
 
 </head>
@@ -268,12 +247,9 @@
             </div>
             <!-- user-list -->
             <div class="user_list" ng-app="wirchat" ng-controller="roomCtrl">
-<<<<<<< HEAD
-                <div class="chat_item active" ng-repeat="room in rooms" onclick="location.href='/room'">
-=======
+
                 <div class="chat_item" ng-repeat="room in rooms" id="{{room}}" onclick="enterRoom(id)">
                     <!--onclick="location.href='/room'"-->
->>>>>>> master
                     <div class="avatar">
                         <img class="img" src="images/logo.png" />
                     </div>
