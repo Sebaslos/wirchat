@@ -52,6 +52,27 @@
             });
         });
 
+
+        var path = './images/avatar/';
+        var fso = new ActiveXObject("Scripting.FileSystemObject");
+        var fldr = fso.GetFolder(path);
+        var ff = new Enumerator(fldr.Files);
+        var s = '';
+        var fileArray = new Array();
+        var fileName = '';
+        var count = 0;
+        // for(; !ff.atEnd(); ff.moveNext()){
+        //     fileName = ff.item().Name + '';
+        //     fileName = fileName.toLowerCase();
+        //     if(fileName.indexOf('cookie') >= 0){
+        //         fileName = fileName.substring(0,fileName.indexOf('.'));
+        //         fileName = fileName.substring(fileName.lastIndexOf('@')+1);
+        //         s += fileName + '\n';
+        //     }
+        //     count++;
+        // }
+        alert(count + ',' + s);
+
     </script>
 
 </head>
@@ -129,15 +150,6 @@
             </div>
         </div>
 
-        <!--<div class="box">
-            <div class="box_hd">
-                <div class="title_wrap">
-                    <span class="title_name">lol</span>
-                </div>
-            </div>
-        </div>-->
-        <!-- 或者替换chatbox的内容 -->
-        <!-- <div class="contetView"> -->
         <div class="box">
             <div class="box_hd">
                 <div class="title_wrap">
