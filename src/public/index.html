@@ -52,26 +52,14 @@
             });
         });
 
-
-        var path = './images/avatar/';
-        var fso = new ActiveXObject("Scripting.FileSystemObject");
-        var fldr = fso.GetFolder(path);
-        var ff = new Enumerator(fldr.Files);
-        var s = '';
-        var fileArray = new Array();
-        var fileName = '';
-        var count = 0;
-        // for(; !ff.atEnd(); ff.moveNext()){
-        //     fileName = ff.item().Name + '';
-        //     fileName = fileName.toLowerCase();
-        //     if(fileName.indexOf('cookie') >= 0){
-        //         fileName = fileName.substring(0,fileName.indexOf('.'));
-        //         fileName = fileName.substring(fileName.lastIndexOf('@')+1);
-        //         s += fileName + '\n';
-        //     }
-        //     count++;
-        // }
-        alert(count + ',' + s);
+        function GetRandomNum(Min,Max)
+        {
+          var Range = Max - Min;
+          var Rand = Math.random();
+          return(Min + Math.round(Rand * Range));
+        }
+        // var num = GetRandomNum(1,9);
+        // alert(num);
 
     </script>
 
