@@ -10,7 +10,6 @@ class Chat implements MessageComponentInterface {
     protected $rooms;
     protected $users_in_room;
     protected $clients_in_room;
-    protected $clients_users;
 
     public function __construct() {
         $this->clients = new \SplObjectStorage;
@@ -18,7 +17,6 @@ class Chat implements MessageComponentInterface {
         $rooms = getAllRoom();
         $this->users_in_room = array();
         $this->clients_in_room = array();
-        $this->clients_users = array();
     }
 
     public function onOpen(ConnectionInterface $conn) {
@@ -29,16 +27,8 @@ class Chat implements MessageComponentInterface {
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
-        // $numRecv = count($this->clients) - 1;
-        // echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
-        //     , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
-
-        // foreach ($this->clients as $client) {
-        //     if ($from !== $client) {
-        //         $client->send($msg);
-        //     }
-        // }
         $msg = json_decode($msg);
+
         if ($msg->type === "changeRoom") {
             $uname = $msg->username;
             $rid = $msg->toRoom;
@@ -57,7 +47,7 @@ class Chat implements MessageComponentInterface {
                 unset($this->clients_in_room[$crid][$key]);
 
                 // broadcast new userlist
-                $bmsg = array('type'=>'userlist', 'users'=>$this->getUserList($crid), 'text'=>'user ' . $uname . ' leave this room');
+                $bmsg = array('type'=>'userlist', 'users'=>$this->getUserList($crid), 'text'=>$uname . ' leave this room');
                 $bmsg = json_encode($bmsg);
                 foreach ($this->clients_in_room[$crid] as $client) {
                     $client->send($bmsg);
@@ -74,7 +64,6 @@ class Chat implements MessageComponentInterface {
             // add user to room
             array_push($this->users_in_room[$rid], $uname);
             array_push($this->clients_in_room[$rid], $from);
-            $this->clients_users[$from] = $uname;
 
             // send enter room succeed
             $nmsg = array('type'=>'enterroom');
@@ -83,7 +72,7 @@ class Chat implements MessageComponentInterface {
 
             // broadcast new userlist
             $userlist = $this->getUserList($rid);
-            $bmsg = array('type'=>'userlist', 'users'=>$userlist, 'text'=>'new user ' . $uname . ' enter this room');
+            $bmsg = array('type'=>'userlist', 'users'=>$userlist, 'text'=>$uname . ' join this room');
             $bmsg = json_encode($bmsg);
             foreach ($this->clients_in_room[$rid] as $client) {
                 $client->send($bmsg);
@@ -93,16 +82,15 @@ class Chat implements MessageComponentInterface {
             $rid = $msg->roomId;
             $text = $msg->text;
 
-            if ($this->clients_users[$from] !== $uname) {
+            $key = array_search($from, $this->clients_in_room[$rid]);
+            if ($this->users_in_room[$rid][$key] !== $uname) {
                 if (in_array($uname, $this->users_in_room[$rid])) {
                     $errorMsg = array('type'=>'rejectusername', 'text'=>'the name you chose is in use');
                     $errorMsg = json_encode($errorMsg);
                     $from->send($errorMsg);
                     return;
                 } else {
-                    $key = array_search($from, $this->clients_in_room[$rid]);
                     $this->users_in_room[$rid][$key] = $uname;
-                    $this->clients_users[$from] = $uname;
                 }
             }
 
@@ -128,7 +116,7 @@ class Chat implements MessageComponentInterface {
     public function onClose(ConnectionInterface $conn) {
         // The connection is closed, remove it, as we can no longer send it messages
         $this->clients->detach($conn);
-        unset($this->clients_users[$from]);
+
         echo "Connection {$conn->resourceId} has disconnected\n";
     }
 

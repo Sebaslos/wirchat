@@ -65,12 +65,16 @@
                 case "userlist":
                     text = msg.text;
                     $("#box_title").text(room.name + " (" + msg.users.length + ")");
-                    $(".message_box").append("<div class='message'><img class='avatar' src='images/logo.png' /><div class='bubble bubble_default left'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
+
+                    $(".message_box").append("<div class='message_info'><p class='message_system '><span class='content'>" + text + "</span></p></div>");
+                    // $(".message_box").append("<div class='message'><img class='avatar' src='images/logo.png' /><div class='bubble bubble_default left'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
                     // TODO: set userlist in left side
                     break;
                 case "message":
                     text = msg.text;
-                    $(".message_box").append("<div class='message'><img class='avatar' src='images/logo.png' /><div class='bubble bubble_default left'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
+                    var nickname = msg.username;
+                    $(".message_box").append("<div class='message'><img class='avatar' src='images/logo.png' /><h4 class='nickname'>" + nickname + "</h4><div class='bubble bubble_default left'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
+                    // $(".message_box").append("<div class='message'><img class='avatar' src='images/logo.png' /><div class='bubble bubble_default left'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
                     break;
             }
 
@@ -319,9 +323,6 @@
                     </div>
 
                     <div class="message">
-                        <div class="message_system">
-                            <div class="content">22:30</div>
-                        </div>
                         <img class="avatar" src="images/logo.png" />
                         <h4 class="nickname">Test</h4>
                         <div class="bubble bubble_default left">
