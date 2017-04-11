@@ -13,19 +13,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
     <script>
-
-
         var my_avatar_src;
-        my_avatar_src = "images/avatar/avatar"+getRandomNum(1,9)+".png";
+        my_avatar_src = "images/avatar/avatar" + getRandomNum(1, 9) + ".png";
 
         var rooms = new Array();
         $.getJSON(
-          "room",
-          function(data) {
-              $.each(data,function(i,element){
-                rooms[i] = element.name;
-              });
-          }
+            "room",
+            function (data) {
+                $.each(data, function (i, element) {
+                    rooms[i] = element.name;
+                });
+            }
         );
 
         var room = null;
@@ -106,7 +104,7 @@
                 return;
             }
 
-            var cid = currentRoom === null?null:currentRoom.id;
+            var cid = currentRoom === null ? null : currentRoom.id;
             var msg = {
                 type: "changeRoom",
                 username: $("#username").val(),
@@ -133,61 +131,59 @@
 
 
 
-        function getRandomNum(Min,Max){
-          var Range = Max - Min;
-          var Rand = Math.random();
-          return Min + Math.round(Rand * Range);
+        function getRandomNum(Min, Max) {
+            var Range = Max - Min;
+            var Rand = Math.random();
+            return Min + Math.round(Rand * Range);
         }
 
 
-        function getRandomPicSrc()
-        {
-          avatar_src = "images/avatar/avatar"+getRandomNum(1,9)+".png";
-          document.getElementById("myImage").src = avatar_src;
+        function getRandomPicSrc() {
+            avatar_src = "images/avatar/avatar" + getRandomNum(1, 9) + ".png";
+            document.getElementById("myImage").src = avatar_src;
         }
 
         function getSelectRoom(index) {
-          var selectRList = new Array();
-          var i = 0;
-          for(var item in rooms) {
-            var variable = index.split("");
-            var b = 0;
-            for(var v in variable){
-              if(rooms[item].toUpperCase().indexOf(variable[v].toUpperCase())>=0 && b==0) {
-                b = 0;
-              }else{
-                b = 1;
-              }
+            var selectRList = new Array();
+            var i = 0;
+            for (var item in rooms) {
+                var variable = index.split("");
+                var b = 0;
+                for (var v in variable) {
+                    if (rooms[item].toUpperCase().indexOf(variable[v].toUpperCase()) >= 0 && b == 0) {
+                        b = 0;
+                    } else {
+                        b = 1;
+                    }
+                }
+                if (b == 0) {
+                    selectRList[i] = rooms[item];
+                    i++;
+                }
             }
-            if(b==0){
-                selectRList[i] = rooms[item];
-                i++;
-            }
-          }
-          return selectRList;
+            return selectRList;
         }
 
-        function onInput (event) {
+        function onInput(event) {
             $(".contacts").empty();
-            if(event.target.value.length!=0){
-              var selectRList = getSelectRoom(event.target.value);
-              for(var item in selectRList){
-                $(".contacts").append("<div class='contact_item'><div class='avatar'><img class='img' src='images/logo.png' /></div><div class='info'><h4 class='nickname'>"+selectRList[item]+"</h4></div></div>");
-              }
-          }
+            if (event.target.value.length != 0) {
+                var selectRList = getSelectRoom(event.target.value);
+                for (var item in selectRList) {
+                    $(".contacts").append("<div class='contact_item'><div class='avatar'><img class='img' src='images/logo.png' /></div><div class='info'><h4 class='nickname'>" + selectRList[item] + "</h4></div></div>");
+                }
+            }
         }
 
         //        adapt to IE
-        function onPropChanged (event) {
-          $(".contacts").empty();
-          if(event.target.value.length!=0){
-            var selectRList = getSelectRoom(event.target.value);
-            for(var item in selectRList){
-              $(".contacts").append("<div class='contact_item on'><div class='avatar'><img class='img' src='images/logo.png' /></div><div class='info'><h4 class='nickname'>"+selectRList[item]+"</h4></div></div>");
+        function onPropChanged(event) {
+            $(".contacts").empty();
+            if (event.target.value.length != 0) {
+                var selectRList = getSelectRoom(event.target.value);
+                for (var item in selectRList) {
+                    $(".contacts").append("<div class='contact_item on'><div class='avatar'><img class='img' src='images/logo.png' /></div><div class='info'><h4 class='nickname'>" + selectRList[item] + "</h4></div></div>");
+                }
             }
-          }
         }
-
     </script>
 
 </head>
@@ -208,10 +204,10 @@
 
             <div class="search_bar">
                 <i class="web_wechat_search"></i>
-                <input class="frm_search" type="text" placeholder="search" oninput="onInput(event)" onpropertychange="onPropChanged(event)" >
+                <input class="frm_search" type="text" placeholder="search" oninput="onInput(event)" onpropertychange="onPropChanged(event)">
                 <div class="recommendation">
-                  <div class="contacts">
-                    <!-- <div class="contact_item on">
+                    <div class="contacts">
+                        <!-- <div class="contact_item on">
                       <div class="avatar">
                           <img class="img" src="images/logo.png" />
                       </div>
@@ -227,7 +223,7 @@
                           <h4 class="nickname">Room1</h4>
                       </div>
                     </div> -->
-                  </div>
+                    </div>
                 </div>
             </div>
 
@@ -290,7 +286,7 @@
             </div>
         </div>
 
-        <div class="box" >
+        <div class="box">
             <div class="box_hd">
                 <div class="title_wrap" id="box_title">
                     <span class="title_name">Room1</span>
@@ -301,7 +297,7 @@
                 <div class="message_box">
 
                     <div class="message me">
-                        <img class="avatar" id="myImage" src="images/logo.png"/>
+                        <img class="avatar" id="myImage" src="images/logo.png" />
                         <div class="bubble bubble_primary right">
                             <div class="bubble_cont">
                                 <div class="plain">
@@ -324,7 +320,7 @@
 
                     <div class="message">
                         <div class="message_system">
-                          <div class="content">22:30</div>
+                            <div class="content">22:30</div>
                         </div>
                         <img class="avatar" src="images/logo.png" />
                         <h4 class="nickname">Test</h4>
@@ -337,9 +333,9 @@
                         </div>
                     </div>
                     <div class="message_info">
-                      <p class="message_system ">
-                        <span class="content">Tobi join groop</span>
-                      </p>
+                        <p class="message_system ">
+                            <span class="content">Tobi join groop</span>
+                        </p>
                     </div>
                 </div>
             </div>

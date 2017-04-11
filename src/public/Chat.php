@@ -10,6 +10,7 @@ class Chat implements MessageComponentInterface {
     protected $rooms;
     protected $users_in_room;
     protected $clients_in_room;
+    protected $clients_users;
 
     public function __construct() {
         $this->clients = new \SplObjectStorage;
@@ -17,10 +18,7 @@ class Chat implements MessageComponentInterface {
         $rooms = getAllRoom();
         $this->users_in_room = array();
         $this->clients_in_room = array();
-
-        // foreach ($rooms as $room ) {
-        //     echo $room->id;
-        // }
+        $this->clients_users = array();
     }
 
     public function onOpen(ConnectionInterface $conn) {
@@ -76,6 +74,7 @@ class Chat implements MessageComponentInterface {
             // add user to room
             array_push($this->users_in_room[$rid], $uname);
             array_push($this->clients_in_room[$rid], $from);
+            $this->clients_users[$from] = $uname;
 
             // send enter room succeed
             $nmsg = array('type'=>'enterroom');
@@ -90,11 +89,22 @@ class Chat implements MessageComponentInterface {
                 $client->send($bmsg);
             }
         } elseif ($msg->type === "message") {
-            // echo sprintf($msg->text);
-
             $uname = $msg->username;
             $rid = $msg->roomId;
             $text = $msg->text;
+
+            if ($this->clients_users[$from] !== $uname) {
+                if (in_array($uname, $this->users_in_room[$rid])) {
+                    $errorMsg = array('type'=>'rejectusername', 'text'=>'the name you chose is in use');
+                    $errorMsg = json_encode($errorMsg);
+                    $from->send($errorMsg);
+                    return;
+                } else {
+                    $key = array_search($from, $this->clients_in_room[$rid]);
+                    $this->users_in_room[$rid][$key] = $uname;
+                    $this->clients_users[$from] = $uname;
+                }
+            }
 
             // send message to other user in the room
             $nmsg = array('type'=>'message', 'username'=>$uname, 'text'=>$text);
@@ -118,7 +128,7 @@ class Chat implements MessageComponentInterface {
     public function onClose(ConnectionInterface $conn) {
         // The connection is closed, remove it, as we can no longer send it messages
         $this->clients->detach($conn);
-
+        unset($this->clients_users[$from]);
         echo "Connection {$conn->resourceId} has disconnected\n";
     }
 
