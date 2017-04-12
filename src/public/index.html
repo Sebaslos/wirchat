@@ -13,8 +13,22 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
     <script>
+        var my_avatar_src;
+        my_avatar_src = "images/avatar/avatar" + getRandomNum(1, 9) + ".png";
+
+        var rooms = new Array();
+        $.getJSON(
+            "room",
+            function (data) {
+                $.each(data, function (i, element) {
+                    rooms[i] = element.name;
+                });
+            }
+        );
+
         var room = null;
         var currentRoom = null;
+
 
         var app = angular.module('wirchat', []);
         app.controller('roomCtrl', function ($scope, $http) {
@@ -35,6 +49,7 @@
         };
 
         conn.onmessage = function (e) {
+
             var msg = $.parseJSON(e.data);
             var text = "";
 
@@ -50,12 +65,16 @@
                 case "userlist":
                     text = msg.text;
                     $("#box_title").text(room.name + " (" + msg.users.length + ")");
-                    $(".message_box").append("<div class='message'><img class='avatar' src='images/logo.png' /><div class='bubble bubble_default left'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
+
+                    $(".message_box").append("<div class='message_info'><p class='message_system '><span class='content'>" + text + "</span></p></div>");
+                    // $(".message_box").append("<div class='message'><img class='avatar' src='images/logo.png' /><div class='bubble bubble_default left'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
                     // TODO: set userlist in left side
                     break;
                 case "message":
                     text = msg.text;
-                    $(".message_box").append("<div class='message'><img class='avatar' src='images/logo.png' /><div class='bubble bubble_default left'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
+                    var nickname = msg.username;
+                    $(".message_box").append("<div class='message'><img class='avatar' src='images/logo.png' /><h4 class='nickname'>" + nickname + "</h4><div class='bubble bubble_default left'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
+                    // $(".message_box").append("<div class='message'><img class='avatar' src='images/logo.png' /><div class='bubble bubble_default left'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
                     break;
             }
 
@@ -89,7 +108,7 @@
                 return;
             }
 
-            var cid = currentRoom === null?null:currentRoom.id;
+            var cid = currentRoom === null ? null : currentRoom.id;
             var msg = {
                 type: "changeRoom",
                 username: $("#username").val(),
@@ -114,18 +133,66 @@
             });
         });
 
-        function GetRandomNum(Min, Max) {
+
+
+        function getRandomNum(Min, Max) {
             var Range = Max - Min;
             var Rand = Math.random();
-            return (Min + Math.round(Rand * Range));
+            return Min + Math.round(Rand * Range);
         }
-        // var num = GetRandomNum(1,9);
-        // alert(num);
+
+
+        function getRandomPicSrc() {
+            avatar_src = "images/avatar/avatar" + getRandomNum(1, 9) + ".png";
+            document.getElementById("myImage").src = avatar_src;
+        }
+
+        function getSelectRoom(index) {
+            var selectRList = new Array();
+            var i = 0;
+            for (var item in rooms) {
+                var variable = index.split("");
+                var b = 0;
+                for (var v in variable) {
+                    if (rooms[item].toUpperCase().indexOf(variable[v].toUpperCase()) >= 0 && b == 0) {
+                        b = 0;
+                    } else {
+                        b = 1;
+                    }
+                }
+                if (b == 0) {
+                    selectRList[i] = rooms[item];
+                    i++;
+                }
+            }
+            return selectRList;
+        }
+
+        function onInput(event) {
+            $(".contacts").empty();
+            if (event.target.value.length != 0) {
+                var selectRList = getSelectRoom(event.target.value);
+                for (var item in selectRList) {
+                    $(".contacts").append("<div class='contact_item'><div class='avatar'><img class='img' src='images/logo.png' /></div><div class='info'><h4 class='nickname'>" + selectRList[item] + "</h4></div></div>");
+                }
+            }
+        }
+
+        //        adapt to IE
+        function onPropChanged(event) {
+            $(".contacts").empty();
+            if (event.target.value.length != 0) {
+                var selectRList = getSelectRoom(event.target.value);
+                for (var item in selectRList) {
+                    $(".contacts").append("<div class='contact_item on'><div class='avatar'><img class='img' src='images/logo.png' /></div><div class='info'><h4 class='nickname'>" + selectRList[item] + "</h4></div></div>");
+                }
+            }
+        }
     </script>
 
 </head>
 
-<body>
+<body onload="getRandomPicSrc()">
     <div class="main">
         <div class="panel">
             <div class="header">
@@ -141,7 +208,27 @@
 
             <div class="search_bar">
                 <i class="web_wechat_search"></i>
-                <input class="frm_search" type="text" placeholder="search">
+                <input class="frm_search" type="text" placeholder="search" oninput="onInput(event)" onpropertychange="onPropChanged(event)">
+                <div class="recommendation">
+                    <div class="contacts">
+                        <!-- <div class="contact_item on">
+                      <div class="avatar">
+                          <img class="img" src="images/logo.png" />
+                      </div>
+                      <div class="info">
+                          <h4 class="nickname">Room4</h4>
+                      </div>
+                    </div>
+                    <div class="contact_item">
+                      <div class="avatar">
+                          <img class="img" src="images/logo.png" />
+                      </div>
+                      <div class="info">
+                          <h4 class="nickname">Room1</h4>
+                      </div>
+                    </div> -->
+                    </div>
+                </div>
             </div>
 
             <div class="tab">
@@ -160,6 +247,7 @@
             </div>
             <!-- user-list -->
             <div class="user_list" ng-app="wirchat" ng-controller="roomCtrl">
+
                 <div class="chat_item" ng-repeat="room in rooms" id="{{room}}" onclick="enterRoom(id)">
                     <!--onclick="location.href='/room'"-->
                     <div class="avatar">
@@ -202,7 +290,7 @@
             </div>
         </div>
 
-        <div class="box" >
+        <div class="box">
             <div class="box_hd">
                 <div class="title_wrap" id="box_title">
                     <span class="title_name">Room1</span>
@@ -213,7 +301,7 @@
                 <div class="message_box">
 
                     <div class="message me">
-                        <img class="avatar" src="images/logo.png" />
+                        <img class="avatar" id="myImage" src="images/logo.png" />
                         <div class="bubble bubble_primary right">
                             <div class="bubble_cont">
                                 <div class="plain">
@@ -244,6 +332,11 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="message_info">
+                        <p class="message_system ">
+                            <span class="content">Tobi join groop</span>
+                        </p>
                     </div>
                 </div>
             </div>
