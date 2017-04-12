@@ -12,5 +12,3 @@ $ php bin/chat-server.php
 ```
 - open webbrowser and go to http://localhost/wirchat/src/public, when not set virtual host
 
-
-爱莎大神大所多啊
