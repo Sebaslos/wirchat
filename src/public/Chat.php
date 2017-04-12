@@ -3,18 +3,18 @@ namespace WirChat;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
-require_once 'db.php';
+// require_once 'db.php';
 
 class Chat implements MessageComponentInterface {
     protected $clients;
-    protected $rooms;
+    // protected $rooms;
     protected $users_in_room;
     protected $clients_in_room;
 
     public function __construct() {
         $this->clients = new \SplObjectStorage;
-        $this->rooms = array();
-        $rooms = getAllRoom();
+        // $this->rooms = array();
+        // $rooms = getAllRoom();
         $this->users_in_room = array();
         $this->clients_in_room = array();
     }
