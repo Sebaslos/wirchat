@@ -29,13 +29,11 @@
         var room = null;
         var currentRoom = null;
 
-
         var app = angular.module('wirchat', []);
         app.controller('roomCtrl', function ($scope, $http) {
             $http.get("room").then(function (response) {
                 $scope.rooms = response.data;
             });
-            // $scope.r = room;
         });
 
         var conn = new WebSocket('ws://localhost:8090');
@@ -79,10 +77,6 @@
             }
 
             scrolltoend();
-        };
-
-        function changeRoom() {
-            room = "rom";
         };
 
         function sendMessage() {
