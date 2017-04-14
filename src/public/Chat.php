@@ -117,6 +117,15 @@ class Chat implements MessageComponentInterface {
         // The connection is closed, remove it, as we can no longer send it messages
         $this->clients->detach($conn);
 
+        foreach ($this->clients_in_room as $roomid=>$clients) {
+            if (($key = array_search($conn, $clients)) !== false)  {
+                $rid = $roomid;
+                break;
+            }
+        }
+        unset($this->users_in_room[$rid][$key]);
+        unset($this->clients_in_room[$rid][$key]);
+
         echo "Connection {$conn->resourceId} has disconnected\n";
     }
 
