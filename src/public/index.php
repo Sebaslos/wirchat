@@ -17,6 +17,7 @@ $app->get('/', function (Request $request, Response $response) {
 });
 
 $app->get('/room', 'getAllRoom');
+$app->post('/room', 'addRoom');
 
 $app->run();
 
@@ -42,5 +43,25 @@ function getAllRoom(Request $request, Response $response) {
         return $newResponse;
     } catch (PDOException $e) {
         echo '{"error":{"text":' . $e->getMessage() . '}}';
+    }
+}
+
+function addRoom(Request $request, Response $response) {
+    $room = json_decode($request->getBody());
+    $sql = "INSERT INTO room (id, name) VALUES (NULL, :name)";
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("name", $room->name);
+        $stmt->execute();
+        $room->id = $db->lastInsertId();
+        $db = null;
+        $newResponse = $response->withJson($room);
+        return $newResponse;
+    } catch (PDOException $e) {
+        echo '{"error":{"text":"' . $e->getMessage() . '"}}';
+        // $error = '{"error":{"text":"' . $e->getMessage() . '"}}';
+        // $newResponse = $response->withJson($error);
+        // return $newResponse;
     }
 }

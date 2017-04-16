@@ -6,6 +6,7 @@ CREATE TABLE `room` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=latin1;
 
+ALTER TABLE `room` ADD UNIQUE(`name`);
 
 INSERT INTO `room` (`id`, `name`) VALUES (NULL, 'WebTechnologie');
 INSERT INTO `room` (`id`, `name`) VALUES (NULL, 'Mathe');
