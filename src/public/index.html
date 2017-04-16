@@ -27,7 +27,8 @@
             "room",
             function (data) {
                 $.each(data, function (i, element) {
-                    rooms[i] = element.name;
+                    // rooms[i] = element.name;
+                    rooms[i] = element;
                 });
             }
         );
@@ -51,27 +52,29 @@
                 $mdDialog.show(confirm).then(function(result) {
                     // alert("room name:" + result);
                     $http.post("room", {'id':null, 'name':result}).then(function(response) {
-                        // alert(response.data);
-                        $scope.rooms.push(response.data);
+                        var res = response.data;
+                        if (res.hasOwnProperty('error')) {
+                            alert("error, Duplicate room name");
+                        } else {
+                            alert("add room succeed");
+                        }
+                        // $scope.rooms.push(response.data);
                     });
                 });
             };
         });
 
-        // app.controller('addRoomCtrl', function ($scope, $mdDialog) {
-        //     $scope.showPrompt = function(ev) {
-        //         var confirm = $mdDialog.prompt()
-        //             .title('add new room')
-        //             .placeholder('room name')
-        //             .targetEvent(ev)
-        //             .ok('add')
-        //             .cancel('cancel');
+        app.controller('tabCtrl', function ($scope) {
+            $scope.tabSelected = "#room_list";
+            $scope.tabChange = function(newTab) {
+                $scope.tabSelected = newTab;
+            }
+        });
 
-        //         $mdDialog.show(confirm).then(function(result) {
-        //             alert("room name:" + result);
-        //         });
-        //     };
-        // });
+        app.controller('connCtrl', function ($scope) {
+            $scope.room = null;
+            $scope.currentRoom = null;
+        });
 
         var conn = new WebSocket('ws://localhost:8090');
         conn.onopen = function (e) {
@@ -99,11 +102,16 @@
                     break;
                 case "userlist":
                     text = msg.text;
+                    var users = msg.users;
                     $("#box_title").text(room.name + " (" + msg.users.length + ")");
-
                     $(".message_box").append("<div class='message_info'><p class='message_system '><span class='content'>" + text + "</span></p></div>");
-                    // $(".message_box").append("<div class='message'><img class='avatar' src='images/logo.png' /><div class='bubble bubble_default left'><div class='bubble_cont'><div class='plain'><pre>" + text + "</pre></div></div></div></div>");
-                    // TODO: set userlist in left side
+                    // set userlist in left side
+                    $("#user_list").empty();
+                    var length = users.length;
+                    for (var i=0; i < length; i++) {
+                        var name = users[i];
+                        $("#user_list").append("<div class='chat_item'><div class='avatar'><img class='img' src='images/logo.png' /></div><div class='info'><h3 class='nickname'><span class='nickname_text'>" + name + "</span></h3></div></div>");
+                    }
                     break;
                 case "message":
                     text = msg.text;
@@ -154,6 +162,9 @@
             currentRoom = room;
             // $("#box_title").text(room.name);
             $(".message_box").text("");
+            
+            if ($("#box_content").is(":hidden"))
+                $("#box_content").show();
         };
 
         $(document).ready(function () {
@@ -162,6 +173,11 @@
                     $("button.btn_send").click();
                 }
             });
+
+            // chat box cant be seen when not in a room
+            if (currentRoom === null) {
+                $("#box_content").hide();
+            }
         });
 
         function getRandomNum(Min, Max) {
@@ -169,7 +185,6 @@
             var Rand = Math.random();
             return Min + Math.round(Rand * Range);
         }
-
 
         function getRandomPicSrc() {
             avatar_src = "images/avatar/avatar" + getRandomNum(1, 9) + ".png";
@@ -183,7 +198,7 @@
                 var variable = index.split("");
                 var b = 0;
                 for (var v in variable) {
-                    if (rooms[item].toUpperCase().indexOf(variable[v].toUpperCase()) >= 0 && b == 0) {
+                    if (rooms[item].name.toUpperCase().indexOf(variable[v].toUpperCase()) >= 0 && b == 0) {
                         b = 0;
                     } else {
                         b = 1;
@@ -202,7 +217,8 @@
             if (event.target.value.length != 0) {
                 var selectRList = getSelectRoom(event.target.value);
                 for (var item in selectRList) {
-                    $(".contacts").append("<div class='contact_item'><div class='avatar'><img class='img' src='images/logo.png' /></div><div class='info'><h4 class='nickname'>" + selectRList[item] + "</h4></div></div>");
+                    var room = JSON.stringify(selectRList[item]);
+                    $(".contacts").append("<div class='contact_item' id='" + room + "' onclick='enterRoom(id)'><div class='avatar'><img class='img' src='images/logo.png' /></div><div class='info'><h4 class='nickname'>" + selectRList[item].name + "</h4></div></div>");
                 }
             }
         }
@@ -213,7 +229,8 @@
             if (event.target.value.length != 0) {
                 var selectRList = getSelectRoom(event.target.value);
                 for (var item in selectRList) {
-                    $(".contacts").append("<div class='contact_item on'><div class='avatar'><img class='img' src='images/logo.png' /></div><div class='info'><h4 class='nickname'>" + selectRList[item] + "</h4></div></div>");
+                    var room = JSON.stringify(selectRList[item]);
+                    $(".contacts").append("<div class='contact_item on' id='" + room + "' onclick='enterRoom(id)'><div class='avatar'><img class='img' src='images/logo.png' /></div><div class='info'><h4 class='nickname'>" + selectRList[item] + "</h4></div></div>");
                 }
             }
         }
@@ -266,22 +283,23 @@
                 </div>
             </div>
 
+            <div ng-controller="tabCtrl">
             <div class="tab">
                 <div class="tab_item">
-                    <a href='#'>
-                        <i class="web_wechat_tab_chat"></i>
+                    <a href ng-click="tabChange('#room_list')">
+                        <i ng-class="{'web_wechat_tab_chat_hl':tabSelected=='#room_list'}" class="web_wechat_tab_chat"></i>
                         <!--web_wechat_tab_chat_hl-->
                     </a>
                 </div>
                 <div class="tab_item">
-                    <a href='#'>
-                        <i class="web_wechat_tab_friends"></i>
+                    <a href ng-click="tabChange('#user_list')">
+                        <i ng-class="{'web_wechat_tab_friends_hl':tabSelected=='#user_list'}" class="web_wechat_tab_friends"></i>
                         <!-- web_wechat_tab_friends_hl -->
                     </a>
                 </div>
             </div>
-            <!-- user-list -->
-            <div class="user_list" ng-controller="roomCtrl">
+            <!-- room-list  -->
+            <div id="room_list" ng-show="tabSelected=='#room_list'" class="room_list" ng-controller="roomCtrl">
 
                 <div class="chat_item" ng-repeat="room in rooms" id="{{room}}" onclick="enterRoom(id)">
                     <!--onclick="location.href='/room'"-->
@@ -294,45 +312,26 @@
                         </h3>
                     </div>
                 </div>
-
-                <!--<div class="chat_item">
-                    <div class="ext">
-                        <p class="attr">11:24</p>
-                        <p class="attr">
-                            <i class="web_wechat_no-remind"></i>
-                        </p>
-                    </div>
-                    <div class="avatar">
-                        <img class="img" src="images/logo.png" />
-                    </div>
-                    <div class="info">
-                        <h3 class="nickname">
-                            <span class="nickname_text">Room1</span>
-                        </h3>
-                    </div>
-                </div>
-
-                <div class="chat_item">
-                    <div class="avatar">
-                        <img class="img" src="images/logo.png" />
-                    </div>
-                    <div class="info">
-                        <h3 class="nickname">
-                            <span class="nickname_text">Room2</span>
-                        </h3>
-                    </div>
-                </div>-->
             </div>
+
+            <!-- user-list -->
+            <div id="user_list" ng-show="tabSelected=='#user_list'" class="room_list">
+                
+            </div>
+
+            </div>
+
         </div>
 
-        <div class="box">
+        <div class="box" ng-controller="connCtrl">
+            <div id="box_content">
             <div class="box_hd">
                 <div class="title_wrap" id="box_title">
                     <span class="title_name">Room1</span>
                 </div>
             </div>
 
-            <div class="box_bd">
+            <div class="box_bd" ng-style="{visibility:currentRoom !== null?'hidden':'visible'}">
                 <div class="message_box">
 
                     <div class="message me">
@@ -387,6 +386,7 @@
                     <button class="btn_send" onclick="sendMessage()">Send</button>
                 </div>
                 <!--</form>-->
+            </div>
             </div>
 
         </div>

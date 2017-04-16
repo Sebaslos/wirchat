@@ -42,7 +42,8 @@ class Chat implements MessageComponentInterface {
 
             // exit current room
             if (!empty($crid) && $rid !== $crid) {
-                $key = array_search($uname, $this->users_in_room[$crid]);
+                // $key = array_search($uname, $this->users_in_room[$crid]);
+                $key = array_search($from, $this->clients_in_room[$crid]);
                 unset($this->users_in_room[$crid][$key]);
                 unset($this->clients_in_room[$crid][$key]);
 
@@ -90,7 +91,16 @@ class Chat implements MessageComponentInterface {
                     $from->send($errorMsg);
                     return;
                 } else {
+                    // change user name
+                    $oldname = $this->users_in_room[$rid][$key];
                     $this->users_in_room[$rid][$key] = $uname;
+                    // broadcast new userlist
+                    $userlist = $this->getUserList($rid);
+                    $bmsg = array('type'=>'userlist', 'users'=>$userlist, 'text'=>$oldname . ' change name to ' . $uname);
+                    $bmsg = json_encode($bmsg);
+                    foreach ($this->clients_in_room[$rid] as $client) {
+                        $client->send($bmsg);
+                    }
                 }
             }
 
@@ -123,8 +133,17 @@ class Chat implements MessageComponentInterface {
                 break;
             }
         }
+
+        $uname = $this->users_in_room[$rid][$key];
+
         unset($this->users_in_room[$rid][$key]);
         unset($this->clients_in_room[$rid][$key]);
+
+        $bmsg = array('type'=>'userlist', 'users'=>$this->getUserList($rid), 'text'=>$uname . ' leave this room');
+        $bmsg = json_encode($bmsg);
+        foreach ($this->clients_in_room[$rid] as $client) {
+            $client->send($bmsg);
+        }
 
         echo "Connection {$conn->resourceId} has disconnected\n";
     }

@@ -59,6 +59,9 @@ function addRoom(Request $request, Response $response) {
         $newResponse = $response->withJson($room);
         return $newResponse;
     } catch (PDOException $e) {
-        echo '{"error":{"text":' . $e->getMessage() . '}}';
+        echo '{"error":{"text":"' . $e->getMessage() . '"}}';
+        // $error = '{"error":{"text":"' . $e->getMessage() . '"}}';
+        // $newResponse = $response->withJson($error);
+        // return $newResponse;
     }
 }
