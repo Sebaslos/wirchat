@@ -37,9 +37,10 @@
         var currentRoom = null;
 
         var app = angular.module('wirchat', ['ngMaterial']);
-        app.controller('roomCtrl', function ($scope, $http, $mdDialog) {
+        app.controller('roomCtrl', function ($scope, $rootScope, $http, $mdDialog) {
             $http.get("room").then(function (response) {
-                $scope.rooms = response.data;
+                // $scope.rooms = response.data;
+                $rootScope.rooms = response.data;
             });
             $scope.showPrompt = function(ev) {
                 var confirm = $mdDialog.prompt()
@@ -57,8 +58,8 @@
                             alert("error, Duplicate room name");
                         } else {
                             alert("add room succeed");
+                            $rootScope.rooms.push(res);
                         }
-                        // $scope.rooms.push(response.data);
                     });
                 });
             };
@@ -258,7 +259,8 @@
                 <input class="frm_search" type="text" placeholder="search" oninput="onInput(event)" onpropertychange="onPropChanged(event)">
 
                 <button id="add_room" class="add_room_button" ng-click="showPrompt($event)">
-                    <!--<i class="web_wechat_add"></i> type="button" onclick="opendialog()"-->
+                    <!--<i class="web_wechat_add"></i>-->
+                    +
                 </button>
 
                 <div class="recommendation">
