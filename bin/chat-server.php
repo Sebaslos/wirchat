@@ -5,7 +5,7 @@ use Ratchet\WebSocket\WsServer;
 use WirChat\Chat;
 
     require dirname(__DIR__) . '/vendor/autoload.php';
-    require dirname(__DIR__) . '/src/public/Chat.php';
+    require dirname(__DIR__) . '/api/Chat.php';
 
     $server = IoServer::factory(
         new HttpServer(
